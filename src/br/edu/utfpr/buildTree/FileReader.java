@@ -21,13 +21,15 @@ public class FileReader {
     private java.io.FileReader fileReader;
     private BufferedReader bufferReader;
 
-    public List<String[][]> readFile(String path) {
+    public List<Grafo> readFile(String path) {
         String line = null;
         int nVertex;
         String breakLabel = null;
 
+        Grafo grafo;
+
         String matrix[][];
-        List<String[][]> listMatrix = new ArrayList<>();
+        List<Grafo> grafos = new ArrayList<>();
 
         try {
             fileReader = new java.io.FileReader(path);
@@ -43,20 +45,27 @@ public class FileReader {
         nVertex = Integer.parseInt(line1[0]);
         breakLabel = line1[1];
 
+        int[] quantidadeLabels = new int[nVertex];
+
         matrix = new String[nVertex][nVertex];
         int i = 0;
         try {
             while ((line = bufferReader.readLine()) != null) {
-
                 if (!line.equals("")) {
                     String splitLine[] = line.split(" ");
                     for (int j = 0; j < splitLine.length; j++) {
                         matrix[i][j] = splitLine[j];
+                        int label = Integer.parseInt(splitLine[j]);
+                        if (label != nVertex){
+                            quantidadeLabels[label]++;
+                        }
                     }
                     i++;
                 } else {
-                    listMatrix.add(matrix);
+                    grafo = new Grafo(matrix, quantidadeLabels);
+                    grafos.add(grafo);
                     matrix = new String[nVertex][nVertex];
+                    quantidadeLabels = new int[nVertex];
                     i = 0;
                 }
             }
@@ -64,18 +73,18 @@ public class FileReader {
             System.err.println("Erro: " + ex.getMessage());
         }
 
-        printMatrix(listMatrix);
-        return listMatrix;
+        printMatrix(grafos);
+        return grafos;
     }
 
-    public void printMatrix(List<String[][]> listMatrix) {
+    public void printMatrix(List<Grafo> grafos) {
         System.out.println("=== Print List Matrix ===");
-        for (String[][] matrix : listMatrix) {
-            for (int i = 0; i < matrix.length; i++) {
+        for (Grafo grafo : grafos) {
+            for (int i = 0; i < grafo.getGrafo().length; i++) {
                 System.out.println();
-                for (int j = 0; j < matrix.length; j++) {
-                    if (matrix[i][j] != null) {
-                        System.out.print(matrix[i][j] + " ");
+                for (int j = 0; j < grafo.getGrafo().length; j++) {
+                    if (grafo.getGrafo()[i][j] != null) {
+                        System.out.print(grafo.getGrafo()[i][j] + " ");
                     }
                 }
             }
