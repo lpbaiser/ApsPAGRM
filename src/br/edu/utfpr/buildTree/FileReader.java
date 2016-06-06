@@ -9,8 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -21,15 +19,15 @@ public class FileReader {
     private java.io.FileReader fileReader;
     private BufferedReader bufferReader;
 
-    public List<Grafo> readFile(String path) {
+    public List<GrafoMatriz> readFile(String path) {
         String line = null;
         int nVertex;
         String breakLabel = null;
 
-        Grafo grafo;
+        GrafoMatriz grafoMatrix;
 
         String matrix[][];
-        List<Grafo> grafos = new ArrayList<>();
+        List<GrafoMatriz> grafos = new ArrayList<>();
 
         try {
             fileReader = new java.io.FileReader(path);
@@ -53,17 +51,19 @@ public class FileReader {
             while ((line = bufferReader.readLine()) != null) {
                 if (!line.equals("")) {
                     String splitLine[] = line.split(" ");
+                    int x = nVertex - splitLine.length;
                     for (int j = 0; j < splitLine.length; j++) {
-                        matrix[i][j] = splitLine[j];
+                        matrix[i][x] = splitLine[j];
                         int label = Integer.parseInt(splitLine[j]);
-                        if (label != nVertex){
+                        if (label != nVertex) {
                             quantidadeLabels[label]++;
                         }
+                        x++;
                     }
                     i++;
                 } else {
-                    grafo = new Grafo(matrix, quantidadeLabels);
-                    grafos.add(grafo);
+                    grafoMatrix = new GrafoMatriz(matrix, quantidadeLabels, breakLabel);
+                    grafos.add(grafoMatrix);
                     matrix = new String[nVertex][nVertex];
                     quantidadeLabels = new int[nVertex];
                     i = 0;
@@ -73,21 +73,39 @@ public class FileReader {
             System.err.println("Erro: " + ex.getMessage());
         }
 
-        printMatrix(grafos);
+//        printMatrix(grafos);
+//        printLabel(grafos);
         return grafos;
     }
 
-    public void printMatrix(List<Grafo> grafos) {
-        System.out.println("=== Print List Matrix ===");
-        for (Grafo grafo : grafos) {
+    public void printLabel(List<GrafoMatriz> grafos) {
+        int[] label = grafos.get(0).getQuantidadeLabels();
+        int i = 0;
+        System.out.println("=== Print Label of Matrix ===");
+        for (i = 0; i < label.length; i++) {
+            System.out.println(label[i]);
+        }
+        System.out.println("i: " + i);
+    }
+
+    public void printMatrix(List<GrafoMatriz> grafos) {
+
+        System.out.println("=== Print List of Matrix ===");
+        for (GrafoMatriz grafo : grafos) {
+            String space = "0 ";
             for (int i = 0; i < grafo.getGrafo().length; i++) {
-                System.out.println();
+//                System.out.print(space + " ");
+//                space += "0 ";
                 for (int j = 0; j < grafo.getGrafo().length; j++) {
                     if (grafo.getGrafo()[i][j] != null) {
                         System.out.print(grafo.getGrafo()[i][j] + " ");
                     }
                 }
+
+                System.out.println("");
             }
+//            break;
+//            System.out.println("");
 
         }
     }
