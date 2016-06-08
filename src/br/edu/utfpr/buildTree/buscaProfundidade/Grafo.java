@@ -43,6 +43,5 @@ public interface Grafo<V extends Vertice, A extends Aresta<V,V>> {
 	public void adicionaAresta(A arestaAdicionada);	
         
         
-        //para teste
-        public int[][] retMatriz();
+    
 }

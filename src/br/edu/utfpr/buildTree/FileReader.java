@@ -22,11 +22,11 @@ public class FileReader {
     public List<GrafoMatriz> readFile(String path) {
         String line = null;
         int nVertex;
-        String breakLabel = null;
 
         GrafoMatriz grafoMatrix;
 
-        String matrix[][];
+        List<List<Integer>> grafo = new ArrayList<>();
+
         List<GrafoMatriz> grafos = new ArrayList<>();
 
         try {
@@ -41,32 +41,25 @@ public class FileReader {
 
         String line1[] = line.split(" ");
         nVertex = Integer.parseInt(line1[0]);
-        breakLabel = line1[1];
 
-        int[] quantidadeLabels = new int[nVertex];
-
-        matrix = new String[nVertex][nVertex];
-        int i = 0;
+        List<Integer> labels = new ArrayList<>();
+        for (int i = 0; i < nVertex-1; i++) {
+            labels.add(i);
+        }
         try {
             while ((line = bufferReader.readLine()) != null) {
                 if (!line.equals("")) {
                     String splitLine[] = line.split(" ");
-                    int x = nVertex - splitLine.length;
-                    for (int j = 0; j < splitLine.length; j++) {
-                        matrix[i][x] = splitLine[j];
-                        int label = Integer.parseInt(splitLine[j]);
-                        if (label != nVertex) {
-                            quantidadeLabels[label]++;
-                        }
-                        x++;
+                    List<Integer> splitLineInt = new ArrayList<>();
+                    for (int i = 0; i < splitLine.length; i++) {
+                        splitLineInt.add(Integer.parseInt(splitLine[i]));
                     }
-                    i++;
+                    grafo.add(splitLineInt);
                 } else {
-                    grafoMatrix = new GrafoMatriz(matrix, quantidadeLabels, breakLabel);
+                    grafoMatrix = new GrafoMatriz(grafo, nVertex, labels);
                     grafos.add(grafoMatrix);
-                    matrix = new String[nVertex][nVertex];
-                    quantidadeLabels = new int[nVertex];
-                    i = 0;
+                    grafo = new ArrayList<>();
+                    labels = new ArrayList<>();
                 }
             }
         } catch (IOException ex) {
@@ -78,36 +71,35 @@ public class FileReader {
         return grafos;
     }
 
-    public void printLabel(List<GrafoMatriz> grafos) {
-        int[] label = grafos.get(0).getQuantidadeLabels();
-        int i = 0;
-        System.out.println("=== Print Label of Matrix ===");
-        for (i = 0; i < label.length; i++) {
-            System.out.println(label[i]);
-        }
-        System.out.println("i: " + i);
-    }
-
-    public void printMatrix(List<GrafoMatriz> grafos) {
-
-        System.out.println("=== Print List of Matrix ===");
-        for (GrafoMatriz grafo : grafos) {
-            String space = "0 ";
-            for (int i = 0; i < grafo.getGrafo().length; i++) {
-//                System.out.print(space + " ");
-//                space += "0 ";
-                for (int j = 0; j < grafo.getGrafo().length; j++) {
-                    if (grafo.getGrafo()[i][j] != null) {
-                        System.out.print(grafo.getGrafo()[i][j] + " ");
-                    }
-                }
-
-                System.out.println("");
-            }
-//            break;
-//            System.out.println("");
-
-        }
-    }
-
+//    public void printLabel(List<GrafoMatriz> grafos) {
+//        int[] label = grafos.get(0).getQuantidadeLabels();
+//        int i = 0;
+//        System.out.println("=== Print Label of Matrix ===");
+//        for (i = 0; i < label.length; i++) {
+//            System.out.println(label[i]);
+//        }
+//        System.out.println("i: " + i);
+//    }
+//
+//    public void printMatrix(List<GrafoMatriz> grafos) {
+//
+//        System.out.println("=== Print List of Matrix ===");
+//        for (GrafoMatriz grafo : grafos) {
+//            String space = "0 ";
+//            for (int i = 0; i < grafo.getGrafo().length; i++) {
+////                System.out.print(space + " ");
+////                space += "0 ";
+//                for (int j = 0; j < grafo.getGrafo().length; j++) {
+//                    if (grafo.getGrafo()[i][j] != null) {
+//                        System.out.print(grafo.getGrafo()[i][j] + " ");
+//                    }
+//                }
+//
+//                System.out.println("");
+//            }
+////            break;
+////            System.out.println("");
+//
+//        }
+//    }
 }

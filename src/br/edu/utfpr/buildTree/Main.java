@@ -16,11 +16,14 @@ public class Main {
         FileReader fr = new FileReader();
 //        fr.readFile("/home/leonardo/Dropbox/Grafos/ApsPAGRM/instances/group_1/HDGraph20_20.txt");
         List<GrafoMatriz> grafos = fr.readFile("/home/leonardo/Dropbox/Grafos/ApsPAGRM/instances/group_1/HDGraph20_20.txt");
-        Grafo g = GrafoMatriz.grafoMatrixToGafo(grafos.get(0));
-        VerticeBuscaProfundidade s = new VerticeBuscaProfundidade();
-        s.setId("1");
-        BuscaProfundidade bl = new BuscaProfundidade(g, s);
-        bl.executar();
+        System.out.println("Labels" + grafos.get(0).getLabels().size());
+        MLSTAlgorithm mlst = new MLSTAlgorithm();
+        List<Integer> listLabels = mlst.individuo(grafos.get(0));
+        System.out.print("[");
+        for (Integer listLabel : listLabels) {
+            System.out.print(listLabel+ " ");
+        }
+        System.out.print("]");
 //        fr.readFile("/home/leonardo/Dropbox/Grafos/ApsPAGRM/instances/group_1/MDGraph50_50.txt");
 //        fr.readFile("/home/leonardo/Dropbox/Grafos/ApsPAGRM/instances/group_2_with_n=500/MDGraph500_625.txt");
     }

@@ -1,0 +1,50 @@
+individuo
+
+Enquanto existir um vértice não conectado faz:
+	Escolhe um label aleatório
+	remove este label da lista de labels 
+	adiciona este label em uma lista de label utilizados
+
+	percorre todo o grafo:
+		se label da posição[linha][coluna] é igual ao label escolhido
+			adiciona o vértice da coluna na lista do vértice da linha(vértice adjacente)
+	percorre a lista de adjacentes
+		verifica se o valo ainda está na lista de vértice
+			remove o vértice da lista
+
+	ordena a lista de label usados
+
+	retorna a lista de label usados
+
+==========================
+
+#Gerar dois indivíduos e concatenar suas listas antes de chamar o crossover
+
+
+Crossover (labelsConcatenados, grafo)
+
+percorre a lista de labels concatenados:
+	percorre a lista de label do grafo:
+		se label[i][j] == labelsConcatenados
+			soma em um vetor de frequência na posição correta a frequência de cada rótulo
+
+Enquanto existir um vértice não conectado faz:
+	pega a posição e o valor máximo do vetor de frequência
+	seta 0 na posição do máximo do vetor de frequência
+	pega o maior valor do labelsConcatenados
+	adiciona em uma lista de labels usados o maior valor do labelsConcatenados
+
+	percorre todo o grafo:
+		se label da posição[linha][coluna] é igual ao label escolhido
+			adiciona o vértice da coluna na lista do vértice da linha(vértice adjacente)
+
+	percorre a lista de adjacentes
+		verifica se o valo ainda está na lista de vértice
+			remove o vértice da lista
+
+	ordena lista de labels utilizados 
+
+	retorna a lista de labels utilizados
+
+
+
