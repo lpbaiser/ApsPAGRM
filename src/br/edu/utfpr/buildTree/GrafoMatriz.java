@@ -1,5 +1,6 @@
 package br.edu.utfpr.buildTree;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,13 +10,13 @@ import java.util.List;
 public class GrafoMatriz {
 
     private List<List<Integer>> grafo;
-    private List<Integer> labels;
+    HashMap<Integer, Integer> frequancyLabel;
     private int size;
 
-    public GrafoMatriz(List<List<Integer>> grafo, int size, List<Integer> labels) {
+    public GrafoMatriz(List<List<Integer>> grafo, int size, HashMap<Integer, Integer> frequancyLabel) {
         this.grafo = grafo;
         this.size = size;
-        this.labels = labels;
+        this.frequancyLabel = frequancyLabel;
     }
 
 //    public static Grafo grafoMatrixToGafo(GrafoMatriz matrix) {
@@ -39,13 +40,15 @@ public class GrafoMatriz {
 //        }
 //        return g;
 //    }
-    public List<Integer> getLabels() {
-        return labels;
+
+    public HashMap<Integer, Integer> getFrequancyLabel() {
+        return frequancyLabel;
     }
 
-    public void setLabels(List<Integer> labels) {
-        this.labels = labels;
+    public void setFrequancyLabel(HashMap<Integer, Integer> frequancyLabel) {
+        this.frequancyLabel = frequancyLabel;
     }
+
 
     public int getSize() {
         return size;

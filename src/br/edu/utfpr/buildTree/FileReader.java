@@ -8,6 +8,8 @@ package br.edu.utfpr.buildTree;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,6 +31,8 @@ public class FileReader {
 
         List<GrafoMatriz> grafos = new ArrayList<>();
 
+        HashMap<Integer, Integer> frequencyLabel = new HashMap<>();
+
         try {
             fileReader = new java.io.FileReader(path);
             bufferReader = new BufferedReader(fileReader);
@@ -43,9 +47,12 @@ public class FileReader {
         nVertex = Integer.parseInt(line1[0]);
 
         List<Integer> labels = new ArrayList<>();
-        for (int i = 0; i < nVertex-1; i++) {
-            labels.add(i);
+
+        Integer[] quantidadeLabels = new Integer[nVertex];
+        for (int i = 0; i < nVertex; i++) {
+            frequencyLabel.put(i, 0);
         }
+
         try {
             while ((line = bufferReader.readLine()) != null) {
                 if (!line.equals("")) {
@@ -53,13 +60,22 @@ public class FileReader {
                     List<Integer> splitLineInt = new ArrayList<>();
                     for (int i = 0; i < splitLine.length; i++) {
                         splitLineInt.add(Integer.parseInt(splitLine[i]));
+                        int label = Integer.parseInt(splitLine[i]);
+                        if (label != nVertex) {
+                            frequencyLabel.put(label, +1);
+
+                        }
                     }
                     grafo.add(splitLineInt);
                 } else {
-                    grafoMatrix = new GrafoMatriz(grafo, nVertex, labels);
+                    labels = Arrays.asList(quantidadeLabels);
+                    grafoMatrix = new GrafoMatriz(grafo, nVertex, frequencyLabel);
                     grafos.add(grafoMatrix);
                     grafo = new ArrayList<>();
                     labels = new ArrayList<>();
+                    for (int i = 0; i < nVertex; i++) {
+                        frequencyLabel.put(i, 0);
+                    }
                 }
             }
         } catch (IOException ex) {
