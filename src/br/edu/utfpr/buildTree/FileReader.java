@@ -50,7 +50,7 @@ public class FileReader {
 
         Integer[] quantidadeLabels = new Integer[nVertex];
         for (int i = 0; i < nVertex; i++) {
-            frequencyLabel.put(i, 0);
+            quantidadeLabels[i] = 0;
         }
 
         try {
@@ -62,19 +62,18 @@ public class FileReader {
                         splitLineInt.add(Integer.parseInt(splitLine[i]));
                         int label = Integer.parseInt(splitLine[i]);
                         if (label != nVertex) {
-                            frequencyLabel.put(label, +1);
-
+                            quantidadeLabels[label]++;
                         }
                     }
                     grafo.add(splitLineInt);
                 } else {
                     labels = Arrays.asList(quantidadeLabels);
-                    grafoMatrix = new GrafoMatriz(grafo, nVertex, frequencyLabel);
+                    grafoMatrix = new GrafoMatriz(grafo, nVertex, labels, quantidadeLabels);
                     grafos.add(grafoMatrix);
                     grafo = new ArrayList<>();
                     labels = new ArrayList<>();
                     for (int i = 0; i < nVertex; i++) {
-                        frequencyLabel.put(i, 0);
+                        quantidadeLabels[i] = 0;
                     }
                 }
             }

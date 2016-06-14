@@ -10,13 +10,15 @@ import java.util.List;
 public class GrafoMatriz {
 
     private List<List<Integer>> grafo;
-    HashMap<Integer, Integer> frequancyLabel;
+    List<Integer> labels;
     private int size;
+    private Integer[] quantidadeLabels;
 
-    public GrafoMatriz(List<List<Integer>> grafo, int size, HashMap<Integer, Integer> frequancyLabel) {
+    public GrafoMatriz(List<List<Integer>> grafo, int size, List<Integer> labels, Integer[] quantidadeLabels) {
         this.grafo = grafo;
         this.size = size;
-        this.frequancyLabel = frequancyLabel;
+        this.labels = labels;
+        this.quantidadeLabels = quantidadeLabels;
     }
 
 //    public static Grafo grafoMatrixToGafo(GrafoMatriz matrix) {
@@ -41,12 +43,22 @@ public class GrafoMatriz {
 //        return g;
 //    }
 
-    public HashMap<Integer, Integer> getFrequancyLabel() {
-        return frequancyLabel;
+    public Integer[] getQuantidadeLabels() {
+        return quantidadeLabels;
     }
 
-    public void setFrequancyLabel(HashMap<Integer, Integer> frequancyLabel) {
-        this.frequancyLabel = frequancyLabel;
+    public void setQuantidadeLabels(Integer[] quantidadeLabels) {
+        this.quantidadeLabels = quantidadeLabels;
+    }
+
+    
+    
+    public List<Integer> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<Integer> labels) {
+        this.labels = labels;
     }
 
 
