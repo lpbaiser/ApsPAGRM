@@ -15,6 +15,7 @@ public class Main {
         FileReader fr = new FileReader();
 //        fr.readFile("/home/leonardo/Dropbox/Grafos/ApsPAGRM/instances/group_1/HDGraph20_20.txt");
         List<GrafoMatrizOld> grafos = fr.readFile("/home/leonardo/Dropbox/Grafos/ApsPAGRM/instances/group_1/HDGraph20_20.txt");
+//        List<GrafoMatriz> grafos = fr.readFile("/data/workspace/Grafos/ApsPAGRM/instances/group_1/HDGraph20_20.txt");
 //        List<GrafoMatriz> grafos = fr.readFile("/home/leonardo/Dropbox/Grafos/ApsPAGRM/instances/test.txt");
 //        System.out.println("Labels" + grafos.get(0).getLabels().size());
         MLSTAlgorithm mlst = new MLSTAlgorithm();
@@ -63,5 +64,6 @@ public class Main {
         Collections.sort(lista1);
         return lista1;
     }
+    
 
 }

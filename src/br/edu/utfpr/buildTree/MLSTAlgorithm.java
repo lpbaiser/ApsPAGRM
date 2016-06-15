@@ -12,7 +12,7 @@ import java.util.Random;
 public class MLSTAlgorithm {
 
     public List<Integer> individuo(GrafoMatrizOld grafo) {
-        
+
         //lista de labels usados
         List<Integer> labelsUsed = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class MLSTAlgorithm {
             labelsGrafo.add(i);
             verticesGrafo.add(i);
         }
-        
+
         // Cria uma matriz de adjacencia
         List<List<Integer>> subgrafo = new ArrayList<>();
         for (int i = 0; i < grafo.getSize() - 1; i++) {
@@ -34,7 +34,7 @@ public class MLSTAlgorithm {
 
         //equanto houver vertices nao conectados 
         while (existsNotConnected(verticesGrafo)) {
-            
+
             //se não existi labels no grafo, não há como gerar um indivíduo
             if (labelsGrafo.size() <= 0) {
                 return null;
@@ -73,6 +73,7 @@ public class MLSTAlgorithm {
             }
 
         }
+        imprimir(subgrafo);
 
         Collections.sort(labelsUsed);
         return labelsUsed;
@@ -190,20 +191,20 @@ public class MLSTAlgorithm {
         int column = 0;
         int line = 0;
         for (int j = 0; j < s.size(); j++) {
-            
+
             List<List<Integer>> adjacencyList = new ArrayList<>();
             for (i = 0; i < grafo.getSize() - 1; i++) {
                 List a = new ArrayList();
                 adjacencyList.add(i, a);
             }
-            
+
             List<Integer> listLabel = new ArrayList<>();
             for (int k = 1; k < grafo.getSize(); k++) {
                 listLabel.add(k);
             }
-            
+
             System.out.println("Freq/Rótulo: " + frequencia);
-            
+
             int indexMinValor = frequencia.indexOf(Collections.min(frequencia));
             Integer verticeRemovido = s.get(indexMinValor);
             frequencia.remove(indexMinValor);
@@ -332,4 +333,12 @@ public class MLSTAlgorithm {
 //            
 //        }
 //    }
+    public void imprimir(List<List<Integer>> grafo) {
+
+        for (int i = 0; i < grafo.size(); i++) {
+            System.out.println(i + " | " + grafo.get(i));
+
+        }
+
+    }
 }
