@@ -12,7 +12,7 @@ import java.util.Random;
 public class MLSTAlgorithm {
 
     public List<Integer> individuo(GrafoMatriz grafo) {
-        
+
         //lista de labels usados
         List<Integer> labelsUsed = new ArrayList<>();
 
@@ -321,4 +321,12 @@ public class MLSTAlgorithm {
 //            
 //        }
 //    }
+    public void imprimir(List<List<Integer>> grafo) {
+
+        for (int i = 0; i < grafo.size(); i++) {
+            System.out.println(i + " | " + grafo.get(i));
+
+        }
+
+    }
 }
