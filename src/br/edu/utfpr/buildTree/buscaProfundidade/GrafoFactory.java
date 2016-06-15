@@ -1,6 +1,6 @@
 package br.edu.utfpr.buildTree.buscaProfundidade;
 
-import br.edu.utfpr.buildTree.GrafoMatriz;
+import br.edu.utfpr.buildTree.GrafoMatrizOld;
 
 
 

@@ -11,32 +11,37 @@ import java.util.Random;
  */
 public class MLSTAlgorithm {
 
-    public List<Integer> individuo(GrafoMatriz grafo) {
+    public List<Integer> individuo(GrafoMatrizOld grafo) {
         
         //lista de labels usados
         List<Integer> labelsUsed = new ArrayList<>();
 
+        //lista de labels do grafo
+        //lista de vertices de grafo
         List<Integer> labelsGrafo = new ArrayList();
-        List<Integer> labels = new ArrayList();
+        List<Integer> verticesGrafo = new ArrayList();
         for (int i = 1; i < grafo.getSize(); i++) {
             labelsGrafo.add(i);
-            labels.add(i);
+            verticesGrafo.add(i);
         }
-
-        List<List<Integer>> adjacencyList = new ArrayList<>();
+        
+        // Cria uma matriz de adjacencia
+        List<List<Integer>> subgrafo = new ArrayList<>();
         for (int i = 0; i < grafo.getSize() - 1; i++) {
             List a = new ArrayList();
-//            for (int j = 0; j < grafo.getSize(); j++) {
-//                a.add(null);
-//            }
-            adjacencyList.add(i, a);
+            subgrafo.add(i, a);
         }
 
-        while (existsNotConnected(labels)) {
+        //equanto houver vertices nao conectados 
+        while (existsNotConnected(verticesGrafo)) {
+            
+            //se não existi labels no grafo, não há como gerar um indivíduo
             if (labelsGrafo.size() <= 0) {
                 return null;
             }
+            //Embaralha a lista de labels do grafo
             Collections.shuffle(labelsGrafo);
+            //Pega o primeiro label, este label é randômico devido a linha acima
             Integer randomLabel = labelsGrafo.get(0);
 //            Integer randomLabel = 10;
 //            System.out.println("Label:" + randomLabel);
@@ -44,12 +49,13 @@ public class MLSTAlgorithm {
             labelsUsed.add(randomLabel);
 
             int line = 0, column = 0;
+            //Determine the number of connected components when inserting all edges with label i in H
             for (List<Integer> lineOfGraph : grafo.getGrafo()) {
                 for (Integer columnOfGrapf : lineOfGraph) {
                     if (columnOfGrapf.equals(randomLabel)) {//se o valor do vértice for igual ao rótulo escolhido
-                        adjacencyList.get(line).add(column + 1);//Add vértice da coluna em uma lista de vértices
+                        subgrafo.get(line).add(column + 1);//Add vértice da coluna em uma lista de vértices
                     }
-                    column++;//?
+                    column++;
                 }
                 line++;
                 column = 0;
@@ -57,11 +63,11 @@ public class MLSTAlgorithm {
             line = 0;
             column = 0;
 
-            for (List<Integer> list : adjacencyList) {
+            //Remove da lista de vétices do grafo todos os vértices que compunham o subgrafo
+            for (List<Integer> list : subgrafo) {
                 for (Integer value : list) {
-                    if (labels.contains(value)) {
-                        labels.remove(value);
-//                        System.out.println("Removeu");
+                    if (verticesGrafo.contains(value)) {
+                        verticesGrafo.remove(value);
                     }
                 }
             }
@@ -72,7 +78,7 @@ public class MLSTAlgorithm {
         return labelsUsed;
     }
 
-    public List<Integer> crossover(GrafoMatriz grafo, List<Integer> s) {
+    public List<Integer> crossover(GrafoMatrizOld grafo, List<Integer> s) {
 
         List<Integer> frequencia = new ArrayList<>();
         for (int i = 0; i < s.size(); i++) {
@@ -139,7 +145,7 @@ public class MLSTAlgorithm {
         return labelsUsed;
     }
 
-    public List<Integer> mutation(GrafoMatriz grafo, List<Integer> s) {
+    public List<Integer> mutation(GrafoMatrizOld grafo, List<Integer> s) {
 
         List<Integer> rotulosNaoUtilizados = new ArrayList<>();
         for (int i = 1; i < grafo.getSize(); i++) {
@@ -184,15 +190,20 @@ public class MLSTAlgorithm {
         int column = 0;
         int line = 0;
         for (int j = 0; j < s.size(); j++) {
+            
             List<List<Integer>> adjacencyList = new ArrayList<>();
             for (i = 0; i < grafo.getSize() - 1; i++) {
                 List a = new ArrayList();
                 adjacencyList.add(i, a);
             }
+            
             List<Integer> listLabel = new ArrayList<>();
             for (int k = 1; k < grafo.getSize(); k++) {
                 listLabel.add(k);
             }
+            
+            System.out.println("Freq/Rótulo: " + frequencia);
+            
             int indexMinValor = frequencia.indexOf(Collections.min(frequencia));
             Integer verticeRemovido = s.get(indexMinValor);
             frequencia.remove(indexMinValor);

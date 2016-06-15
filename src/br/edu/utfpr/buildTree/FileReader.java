@@ -8,8 +8,6 @@ package br.edu.utfpr.buildTree;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -21,17 +19,15 @@ public class FileReader {
     private java.io.FileReader fileReader;
     private BufferedReader bufferReader;
 
-    public List<GrafoMatriz> readFile(String path) {
+    public List<GrafoMatrizOld> readFile(String path) {
         String line = null;
-        int nVertex;
+        int nLabel;
 
-        GrafoMatriz grafoMatrix;
+        GrafoMatrizOld grafoMatrix;
 
         List<List<Integer>> grafo = new ArrayList<>();
 
-        List<GrafoMatriz> grafos = new ArrayList<>();
-
-        HashMap<Integer, Integer> frequencyLabel = new HashMap<>();
+        List<GrafoMatrizOld> grafos = new ArrayList<>();
 
         try {
             fileReader = new java.io.FileReader(path);
@@ -44,13 +40,12 @@ public class FileReader {
         }
 
         String line1[] = line.split(" ");
-        nVertex = Integer.parseInt(line1[0]);
+        nLabel = Integer.parseInt(line1[0]);
 
         List<Integer> labels = new ArrayList<>();
 
-        Integer[] quantidadeLabels = new Integer[nVertex];
-        for (int i = 0; i < nVertex; i++) {
-            quantidadeLabels[i] = 0;
+        for (int i = 1; i < nLabel; i++) {
+            labels.add(i);
         }
 
         try {
@@ -60,29 +55,71 @@ public class FileReader {
                     List<Integer> splitLineInt = new ArrayList<>();
                     for (int i = 0; i < splitLine.length; i++) {
                         splitLineInt.add(Integer.parseInt(splitLine[i]));
-                        int label = Integer.parseInt(splitLine[i]);
-                        if (label != nVertex) {
-                            quantidadeLabels[label]++;
-                        }
+                       
                     }
                     grafo.add(splitLineInt);
                 } else {
-                    labels = Arrays.asList(quantidadeLabels);
-                    grafoMatrix = new GrafoMatriz(grafo, nVertex, labels, quantidadeLabels);
+                    grafoMatrix = new GrafoMatrizOld(grafo, nLabel, labels);
                     grafos.add(grafoMatrix);
                     grafo = new ArrayList<>();
-                    labels = new ArrayList<>();
-                    for (int i = 0; i < nVertex; i++) {
-                        quantidadeLabels[i] = 0;
-                    }
                 }
             }
         } catch (IOException ex) {
             System.err.println("Erro: " + ex.getMessage());
         }
 
-//        printMatrix(grafos);
-//        printLabel(grafos);
+        return grafos;
+    }
+    
+    public List<GrafoMatriz> readFile2(String path) {
+        String line = null;
+        int nLabel;
+
+        GrafoMatriz grafoMatrix;
+
+
+        List<GrafoMatriz> grafos = new ArrayList<>();
+
+        try {
+            fileReader = new java.io.FileReader(path);
+            bufferReader = new BufferedReader(fileReader);
+
+            line = bufferReader.readLine();
+        } catch (Exception ex) {
+            System.err.println("Erro: " + ex.getMessage());
+            return null;
+        }
+
+        String line1[] = line.split(" ");
+        nLabel = Integer.parseInt(line1[0]);
+
+        GrafoMatrizAdjacencia grafo = new GrafoMatrizAdjacencia();
+        List<Label> labels = new ArrayList<>();
+
+        for (int i = 1; i < nLabel; i++) {
+            labels.add(new Label(i));
+        }
+
+        try {
+            while ((line = bufferReader.readLine()) != null) {
+                if (!line.equals("")) {
+                    String splitLine[] = line.split(" ");
+                    List<Label> splitLineInt = new ArrayList<>();
+                    for (int i = 0; i < splitLine.length; i++) {
+                        splitLineInt.add(new Label(Integer.parseInt(splitLine[i])));
+                    }
+                    grafo.getGrafoListaAdjacencia().add(splitLineInt);
+//                    grafo.add(splitLineInt);
+                } else {
+                    grafoMatrix = new GrafoMatriz(grafo, nLabel, labels);
+                    grafos.add(grafoMatrix);
+                    grafo = new GrafoMatrizAdjacencia();
+                }
+            }
+        } catch (IOException ex) {
+            System.err.println("Erro: " + ex.getMessage());
+        }
+
         return grafos;
     }
 
@@ -99,14 +136,14 @@ public class FileReader {
 //    public void printMatrix(List<GrafoMatriz> grafos) {
 //
 //        System.out.println("=== Print List of Matrix ===");
-//        for (GrafoMatriz grafo : grafos) {
+//        for (GrafoMatrizOld grafo : grafos) {
 //            String space = "0 ";
-//            for (int i = 0; i < grafo.getGrafo().length; i++) {
+//            for (int i = 0; i < grafo.getGrafoListaAdjacencia().length; i++) {
 ////                System.out.print(space + " ");
 ////                space += "0 ";
-//                for (int j = 0; j < grafo.getGrafo().length; j++) {
-//                    if (grafo.getGrafo()[i][j] != null) {
-//                        System.out.print(grafo.getGrafo()[i][j] + " ");
+//                for (int j = 0; j < grafo.getGrafoListaAdjacencia().length; j++) {
+//                    if (grafo.getGrafoListaAdjacencia()[i][j] != null) {
+//                        System.out.print(grafo.getGrafoListaAdjacencia()[i][j] + " ");
 //                    }
 //                }
 //
