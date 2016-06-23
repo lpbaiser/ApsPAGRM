@@ -8,29 +8,21 @@ import java.util.List;
  */
 public class GrafoMatriz {
 
-    private GrafoMatrizAdjacencia grafoListaAdjacencia;
-    private List<Label> labels;
+    private List<List<Integer>> grafo;
+    private List<Integer> labels;
     private int size;
 
-    public GrafoMatriz(GrafoMatrizAdjacencia grafo, int size, List<Label> labels) {
-        this.grafoListaAdjacencia = grafo;
+    public GrafoMatriz(List<List<Integer>> grafo, int size, List<Integer> labels) {
+        this.grafo = grafo;
         this.size = size;
         this.labels = labels;
     }
 
-    public GrafoMatrizAdjacencia getGrafo() {
-        return grafoListaAdjacencia;
-    }
-
-    public void setGrafo(GrafoMatrizAdjacencia grafo) {
-        this.grafoListaAdjacencia = grafo;
-    }
-
-    public List<Label> getLabels() {
+    public List<Integer> getLabels() {
         return labels;
     }
 
-    public void setLabels(List<Label> labels) {
+    public void setLabels(List<Integer> labels) {
         this.labels = labels;
     }
 
@@ -42,4 +34,13 @@ public class GrafoMatriz {
         this.size = size;
     }
 
+    public List<List<Integer>> getGrafo() {
+        return grafo;
+    }
+
+    public void setGrafo(List<List<Integer>> grafo) {
+        this.grafo = grafo;
+    }
+    
+   
 }
